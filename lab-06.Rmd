@@ -1,7 +1,7 @@
 ---
 title: "Lab 06 - Ugly charts and Simpson's paradox"
-author: "Insert your name here"
-date: "Insert date here"
+author: "Ryan Wheat"
+date: "02/23/23"
 output: github_document
 ---
 
@@ -13,21 +13,42 @@ library(dsbox)
 library(mosaicData) 
 ```
 
+```{r load-data}
+staff <- read_csv("data/instructional-staff.csv")
+```
+
+
 ### Exercise 1
 
-Remove this text, and add your answer for Exercise 1 here.
-Add code chunks as needed.
-Don't forget to label your code chunk.
-Do not use spaces in code chunk labels.
+```{r wide-to-long}
+
+staff_long <- staff %>%
+  pivot_longer(cols = -faculty_type, names_to = "year") %>%
+  mutate(value = as.numeric(value))
+
+#plot long dataframe
+
+staff_long %>%
+  ggplot(aes(x = year,
+             y = value,
+             group = faculty_type,
+             color = faculty_type)) +
+  geom_line() +
+  labs(title = "Instructional Staff Employment Plans", x = "Year", y = "Percentage of Hires", color = "Faculty Type")
+
+```
+
 
 ### Exercise 2
 
-Remove this text, and add your answer for Exercise 1 here.
-Add code chunks as needed.
-Don't forget to label your code chunk.
-Do not use spaces in code chunk labels.
+This graph works, but given the question that we need to answer, I would collapse the full-time faculty into one category so that there is less clutter -- and the visual can be assessed in terms of full time faculty vs. part time faculty.
+
 
 ### Exercise 3
+
+```{r}
+
+```
 
 ...
 
