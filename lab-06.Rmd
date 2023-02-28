@@ -46,7 +46,11 @@ This graph works, but given the question that we need to answer, I would collaps
 
 ### Exercise 3
 
-```{r}
+```{r fisheries-visual}
+
+fisheries <- read_csv("data/fisheries.csv")
+
+
 
 ```
 
