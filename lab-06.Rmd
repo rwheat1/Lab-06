@@ -68,15 +68,98 @@ fisheries %>%
 ```
 
 
-### Exercise 4
+### Wickham
 
-```{r Wickham-study}
+#### Exercise 1 
+
+This seems like observational data, because it seems extremely unethical to manipulate ppl to be smokers experimentally. 
+
+#### Exercise 2
+
+There are 1314 observations. Each observation represents one participant.
+
+#### Exercise 3
+
+There are 3 variables: outcome, smoking status, and age.
+
+```{r Wickham-study-visual}
 
 data("Whickham")
 
 ?Whickham
 library(performance)
-performance::compare_performance()
+
+#performance::compare_performance()
+
+#plot each variable
+
+Whickham %>%
+  ggplot(aes(x = outcome)) +
+  geom_bar() + theme_bw() + labs(x = "Currently Dead or Alive?", y = "Count")
+
+Whickham %>%
+  ggplot(aes(x = smoker)) +
+  geom_bar() + theme_bw() + labs(x = "Smoker at Baseline?", y = "Count") 
+
+Whickham %>%
+  ggplot(aes(x = age)) +
+  geom_histogram() + theme_bw() + labs(x = "Age at Baseline", y = "Count")
+
+```
+
+#### Exercise 4
+
+My very novel and revolutionary prediction is that smokers at baseline will have worse health/mortality outcomes 20 years later.
+
+#### Exercise 5
+
+76% of smoking individuals (at the time of the intake survey) were still alive 20 years later. 69% of non-smoking individuals were still alive after 20 years. This pattern of results seems to suggest that smoking does not decrease life expectancy -- which we know can't be right.
+
+```{r Wickham-smoker-outcome}
+
+#visualization
+
+Whickham %>%
+  ggplot(aes(x = smoker, fill = outcome)) + geom_bar() + theme_bw() + labs(x = "Smoking at Time of Intake", y = "Count", fill = "Mortality")
+
+#conditional probability
+
+Whickham %>%
+  count(smoker, outcome) %>%
+  group_by(smoker) %>%
+  mutate(mortal_prob = n/sum(n))
+
+```
+
+#### Exercise 6
+
+```{r age-category}
+
+#create age category variable
+
+Whickham <- Whickham %>%
+  mutate(age_cat = case_when(age <= 44 ~ "18-44",
+age > 44 & age <= 64 ~ "45-64",
+age > 64 ~ "65+"))
+
+```
+
+#### Exercise 7
+
+```{r better-Wickham-visual}
+
+#visualization
+
+Whickham %>%
+  ggplot(aes(x = smoker, fill = outcome)) + geom_bar() + facet_wrap(~ age_cat) + theme_bw() + labs(x = "Smoking at Time of Intake", y = "Count", fill = "Mortality")
+
+#conditional probability
+
+Whickham %>%
+  count(smoker, age_cat, outcome) %>%
+  group_by(smoker) %>%
+  mutate(mortal_prob = n/sum(n))
+
 ```
 
 
