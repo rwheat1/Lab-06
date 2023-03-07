@@ -113,7 +113,7 @@ My very novel and revolutionary prediction is that smokers at baseline will have
 
 #### Exercise 5
 
-76% of smoking individuals (at the time of the intake survey) were still alive 20 years later. 69% of non-smoking individuals were still alive after 20 years. This pattern of results seems to suggest that smoking does not decrease life expectancy -- which we know can't be right.
+76% of smoking individuals (at the time of the intake survey) were still alive 20 years later. 69% of non-smoking individuals were still alive after 20 years. This pattern of results seems to suggest that smoking does not decrease life expectancy, and may actually increase life expectancy -- which we know can't be right.
 
 ```{r Wickham-smoker-outcome}
 
@@ -146,6 +146,8 @@ age > 64 ~ "65+"))
 
 #### Exercise 7
 
+In this set of analyses, we've accounted for age as a potentially confounding variable. Indeed, when looking at the effect of smoking on life expectancy within each age group, participants who smoked at the time of the intake survey were more likely to be dead than participants who were not smokers. This seems like a more reasonable pattern of results.
+
 ```{r better-Wickham-visual}
 
 #visualization
@@ -157,9 +159,8 @@ Whickham %>%
 
 Whickham %>%
   count(smoker, age_cat, outcome) %>%
-  group_by(smoker) %>%
+  group_by(smoker, age_cat) %>%
   mutate(mortal_prob = n/sum(n))
-
 ```
 
 
